@@ -34,9 +34,7 @@ class MonthAdapter: RecyclerView.Adapter<MonthAdapter.DayViewHolder>()/*ListAdap
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount() = list.size
 
     private fun getItem(position: Int) = list[position]
 

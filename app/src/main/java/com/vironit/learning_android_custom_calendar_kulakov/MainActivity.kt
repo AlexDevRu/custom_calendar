@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
+import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.ActivityMainBinding
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -20,60 +21,53 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var calendarAdapter: CalendarAdapter
 
-    private var prevFocusPage = 1
-    private var focusPage = 1
+    private val fragments = listOf(
+        MonthFragment.createInstance(-1),
+        MonthFragment.createInstance(0),
+        MonthFragment.createInstance(1),
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        calendarAdapter = CalendarAdapter(this)
+        binding.viewPager.offscreenPageLimit = 2
+
+        calendarAdapter = CalendarAdapter(this, fragments)
         binding.viewPager.adapter = calendarAdapter
 
-        val fragments = listOf(
-            MonthFragment.createInstance(-1),
-            MonthFragment.createInstance(0),
-            MonthFragment.createInstance(1),
-        )
-
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
+            /*override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                focusPage = position
-
                 Log.d("asd", "onPageSelected: $position")
 
-                if (position > 1) {
-                    calendarAdapter.onNext()
-                } else if (position < 1) {
-                    calendarAdapter.onPrev()
-                }
-            }
+
+
+
+            }*/
 
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
                 if (state == SCROLL_STATE_IDLE) {
-                    Log.d("asd", "onPageScrollStateChanged: SCROLL_STATE_IDLE")
+                    val position = binding.viewPager.currentItem
+                    if (position > 1) {
+                        calendarAdapter.onNext()
+                    } else if (position < 1) {
+                        calendarAdapter.onPrev()
+                    }
+                    calendarAdapter.updateUI()
                     binding.viewPager.setCurrentItem(1, false)
-                    binding.viewPager.findFragmentAtPosition(supportFragmentManager, 0)?.let {
-                        Log.d("asd", "onPageSelected: 1 fragment exist")
-                        (it as MonthFragment).updateUI(calendarAdapter.shifts[0])
-                    }
-                    binding.viewPager.findFragmentAtPosition(supportFragmentManager, 1)?.let {
-                        Log.d("asd", "onPageSelected: 2 fragment exist")
-                        (it as MonthFragment).updateUI(calendarAdapter.shifts[1])
-                    }
-                    binding.viewPager.findFragmentAtPosition(supportFragmentManager, 2)?.let {
-                        Log.d("asd", "onPageSelected: 3 fragment exist")
-                        (it as MonthFragment).updateUI(calendarAdapter.shifts[2])
-                    }
+                    binding.viewPager.isUserInputEnabled = true
                     updateMonthTitle()
+                } else if (state == SCROLL_STATE_SETTLING) {
+                    binding.viewPager.isUserInputEnabled = false
                 }
             }
         })
 
         binding.viewPager.setCurrentItem(1, false)
+        updateMonthTitle()
 
         binding.btnMonthBack.setOnClickListener {
             binding.viewPager.setCurrentItem(0, true)
@@ -93,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateMonthTitle() {
         val calendar = Calendar.getInstance()
         calendar.time = Date()
-        calendar.add(Calendar.MONTH, calendarAdapter.shifts[1])
+        calendar.add(Calendar.MONTH, calendarAdapter.center)
 
         val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         binding.calendarTitle.text = sdf.format(calendar.time)

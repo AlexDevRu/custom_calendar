@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
     app:spanCount="7"
-    tools:listitem="@layout/item_day"
-    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+    tools:listitem="@layout/item_day" />

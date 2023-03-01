@@ -62,21 +62,16 @@ class MonthFragment : Fragment() {
             days.add(Day(it, false))
         }
 
-        //(binding?.root?.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         adapter.submitList(days)
-        //(binding?.root?.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = true
     }
-
-    fun getMyId() = arguments?.getString(ID)
 
     companion object {
         private const val TAG = "MonthFragment"
         private const val SHIFT = "SHIFT"
-        private const val ID = "ID"
 
         fun createInstance(shift: Int) : MonthFragment {
             val fragment = MonthFragment()
-            fragment.arguments = bundleOf(SHIFT to shift, ID to UUID.randomUUID().toString())
+            fragment.arguments = bundleOf(SHIFT to shift)
             return fragment
         }
     }

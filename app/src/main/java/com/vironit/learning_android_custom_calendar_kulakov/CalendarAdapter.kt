@@ -6,29 +6,37 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 
-class CalendarAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
+class CalendarAdapter(fragment: FragmentActivity, private val fragments: List<MonthFragment>) : FragmentStateAdapter(fragment) {
 
-    val shifts = mutableListOf(-1, 0, 1)
+    var center = 0
+        private set
 
     fun onNext() {
-        ++shifts[0]
-        ++shifts[1]
-        ++shifts[2]
+        ++center
     }
 
     fun onPrev() {
-        --shifts[0]
-        --shifts[1]
-        --shifts[2]
+        --center
+    }
+
+    fun updateUI() {
+        fragments[0].updateUI(center - 1)
+        fragments[1].updateUI(center)
+        fragments[2].updateUI(center + 1)
     }
 
     override fun getItemCount(): Int {
-        return shifts.size
+        return fragments.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        Log.d("asd", "createFragment: $position ${shifts[position]}")
-        return MonthFragment.createInstance(shifts[position])
+        val shift = when (position) {
+            0 -> center - 1
+            1 -> center
+            else -> center + 1
+        }
+        Log.d("asd", "createFragment: $position $shift")
+        return fragments[position]
     }
 
     companion object {
