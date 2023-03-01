@@ -1,12 +1,9 @@
 package com.vironit.learning_android_custom_calendar_kulakov
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING
@@ -22,9 +19,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var calendarAdapter: CalendarAdapter
 
     private val fragments = listOf(
-        MonthFragment.createInstance(-1),
-        MonthFragment.createInstance(0),
-        MonthFragment.createInstance(1),
+        MonthFragment.createInstance(),
+        MonthFragment.createInstance(),
+        MonthFragment.createInstance(),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewPager.setCurrentItem(1, false)
         updateMonthTitle()
+        calendarAdapter.updateUI()
 
         binding.btnMonthBack.setOnClickListener {
             binding.viewPager.setCurrentItem(0, true)
@@ -91,13 +89,6 @@ class MainActivity : AppCompatActivity() {
 
         val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         binding.calendarTitle.text = sdf.format(calendar.time)
-    }
-
-    fun ViewPager2.findFragmentAtPosition(
-        fragmentManager: FragmentManager,
-        position: Int
-    ): Fragment? {
-        return fragmentManager.findFragmentByTag("f$position")
     }
 
     companion object {
