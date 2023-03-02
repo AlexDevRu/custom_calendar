@@ -1,4 +1,4 @@
-package com.vironit.learning_android_custom_calendar_kulakov.calendar_v2
+package com.vironit.learning_android_custom_calendar_kulakov.events
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,22 +13,22 @@ import java.util.*
 
 class EventAdapter(
     private val listener : Listener
-): ListAdapter<Date, EventAdapter.EventViewHolder>(DIFF_UTIL) {
+): ListAdapter<Event, EventAdapter.EventViewHolder>(DIFF_UTIL) {
 
     companion object {
-        val DIFF_UTIL = object : ItemCallback<Date>() {
-            override fun areContentsTheSame(oldItem: Date, newItem: Date): Boolean {
-                return DateUtils.isSameDay(oldItem, newItem)
+        val DIFF_UTIL = object : ItemCallback<Event>() {
+            override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
+                return oldItem == newItem
             }
 
-            override fun areItemsTheSame(oldItem: Date, newItem: Date): Boolean {
-                return DateUtils.isSameDay(oldItem, newItem)
+            override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
+                return DateUtils.isSameDay(oldItem.calendar, newItem.calendar)
             }
         }
     }
 
     interface Listener {
-        fun onRemove(date: Date)
+        fun onRemove(event: Event)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -45,15 +45,15 @@ class EventAdapter(
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         private val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-        private var date: Date? = null
+        private var date: Event? = null
 
         init {
             binding.btnRemove.setOnClickListener(this)
         }
 
-        fun bind(date: Date) {
+        fun bind(date: Event) {
             this.date = date
-            binding.tvEvent.text = sdf.format(date)
+            binding.tvEvent.text = sdf.format(date.calendar.time)
         }
 
         override fun onClick(view: View?) {

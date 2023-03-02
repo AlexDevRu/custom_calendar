@@ -4,17 +4,18 @@ import android.app.DatePickerDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.CustomCalendarAdapter
-import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.EventAdapter
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.ActivityCalendarV2Binding
+import com.vironit.learning_android_custom_calendar_kulakov.events.Event
+import com.vironit.learning_android_custom_calendar_kulakov.events.EventAdapter
+import com.vironit.learning_android_custom_calendar_kulakov.events.EventDialog
 import org.apache.commons.lang3.time.DateUtils
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, SharedPreferences.OnSharedPreferenceChangeListener, EventAdapter.Listener {
 
@@ -66,24 +67,7 @@ class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         }
 
         binding.calendarTitle.setOnClickListener {
-            /*flag = 0
-            val calendar = binding.viewPager.getCurrentCalendar()!!
-            DatePickerDialog(
-                this,
-                this,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()*/
-            val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
-            datePicker.addOnPositiveButtonClickListener {
-                Toast.makeText(this, "${datePicker.headerText} is selected", Toast.LENGTH_LONG).show()
-            }
-            datePicker.show(supportFragmentManager, "DatePicker")
-        }
-
-        binding.btnAddEvent.setOnClickListener {
-            flag = 1
+            flag = 0
             val calendar = binding.viewPager.getCurrentCalendar()!!
             DatePickerDialog(
                 this,
@@ -92,6 +76,26 @@ class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
+        }
+
+        supportFragmentManager.setFragmentResultListener("EventDialog", this) { _, bundle ->
+            val wedding = bundle.getBoolean(EventDialog.WEDDING)
+            val birthday = bundle.getBoolean(EventDialog.BIRTHDAY)
+            val graduation = bundle.getBoolean(EventDialog.GRADUATION)
+            val date = bundle.getString(EventDialog.DATE)
+            val filteredDates = getDates().filter {
+                val parts = it.split(" ")
+                val year = parts[0].toInt()
+                val month = parts[1].toInt()
+                val dayOfMonth = parts[2].toInt()
+                "$year $month $dayOfMonth" != date
+            }.toSet()
+            prefs.edit { putStringSet(DATES, filteredDates + "$date $wedding $birthday $graduation") }
+        }
+
+        binding.btnAddEvent.setOnClickListener {
+            flag = 1
+            EventDialog().show(supportFragmentManager, null)
         }
 
         prefs.registerOnSharedPreferenceChangeListener(this)
@@ -126,21 +130,27 @@ class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
             val year = parts[0].toInt()
             val month = parts[1].toInt()
             val dayOfMonth = parts[2].toInt()
+            val wedding = parts[3].toBoolean()
+            val birthday = parts[4].toBoolean()
+            val graduation = parts[5].toBoolean()
             val cal = Calendar.getInstance().apply {
                 set(Calendar.YEAR, year)
                 set(Calendar.MONTH, month)
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }
-            cal.time
-        }
+            Event(
+                calendar = cal,
+                wedding = wedding,
+                birthday = birthday,
+                graduation = graduation
+            )
+        }.sortedBy { it.calendar.time }
         adapter.events = dates
         eventAdapter.submitList(dates)
     }
 
-    override fun onRemove(date: Date) {
-        val calendar = Calendar.getInstance().apply {
-            time = date
-        }
+    override fun onRemove(event: Event) {
+        val calendar = event.calendar
 
         val newDates = getDates().filter {
             val parts = it.split(" ")

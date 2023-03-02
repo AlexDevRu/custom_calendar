@@ -1,6 +1,7 @@
 package com.vironit.learning_android_custom_calendar_kulakov.calendar_v2
 
 import androidx.recyclerview.widget.RecyclerView
+import com.vironit.learning_android_custom_calendar_kulakov.events.Event
 import org.apache.commons.lang3.time.DateUtils
 import java.util.*
 import kotlin.properties.Delegates
@@ -9,7 +10,7 @@ abstract class CalendarCellAdapter(
     private val calendar: Calendar,
     startingAt: CalendarPagerAdapter.DayOfWeek,
     preselectedDay: Date? = null,
-    preselectedEvents: List<Date> = emptyList()
+    preselectedEvents: List<Event> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val weekOfMonth: Int
@@ -40,7 +41,7 @@ abstract class CalendarCellAdapter(
         updateItems(preselectedDay, preselectedEvents)
     }
 
-    fun updateItems(selectedDate: Date? = null, events: List<Date> = emptyList()) {
+    fun updateItems(selectedDate: Date? = null, events: List<Event> = emptyList()) {
         val now = Calendar.getInstance()
 
         this.items = (0..itemCount).map {
@@ -62,11 +63,9 @@ abstract class CalendarCellAdapter(
             }
             val isToday = DateUtils.isSameDay(cal, now)
 
-            val isEvent = events.any {
-                DateUtils.isSameDay(cal.time, it)
-            }
+            val event = events.find { DateUtils.isSameDay(cal, it.calendar) }
 
-            Day(cal, state, isToday, isSelected, isEvent)
+            Day(cal, state, isToday, isSelected, event)
         }
     }
 
@@ -80,11 +79,11 @@ abstract class CalendarCellAdapter(
 }
 
 data class Day(
-    var calendar: Calendar,
-    var state: DayState,
-    var isToday: Boolean,
-    var isSelected: Boolean,
-    var isEvent: Boolean
+    val calendar: Calendar,
+    val state: DayState,
+    val isToday: Boolean,
+    val isSelected: Boolean,
+    val event: Event? = null
 )
 
 enum class DayState {

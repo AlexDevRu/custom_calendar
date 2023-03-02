@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Learning Android Custom Calendar Kulakov</string>
     <string name="add_event">Add event</string>
+    <string name="confirm">Confirm</string>
+    <string name="wedding">Wedding</string>
+    <string name="birthday">Birthday</string>
+    <string name="graduation">Graduation</string>
+    <string name="calendar_v2">Calendar v2</string>
+    <string name="add_date">Add date</string>
 </resources>

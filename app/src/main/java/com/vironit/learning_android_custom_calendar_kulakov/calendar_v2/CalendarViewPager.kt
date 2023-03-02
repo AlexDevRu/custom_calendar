@@ -38,7 +38,7 @@ open class CalendarViewPager @JvmOverloads constructor(
         }
     }
 
-    /*override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // initialized child views
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
@@ -53,7 +53,7 @@ open class CalendarViewPager @JvmOverloads constructor(
                 MeasureSpec.makeMeasureSpec(newHeight, MeasureSpec.EXACTLY)
             super.onMeasure(widthMeasureSpec, exactlyHeightMeasureSpec)
         }
-    }*/
+    }
 
     fun getCurrentCalendar(): Calendar? =
         (adapter as? CalendarPagerAdapter)?.getCalendar(currentItem)

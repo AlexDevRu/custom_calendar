@@ -115,7 +115,7 @@
         android:id="@+id/btnCalendarV2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calendar v2"
+        android:text="@string/calendar_v2"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
