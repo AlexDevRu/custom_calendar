@@ -30,7 +30,13 @@ open class CalendarPagerAdapter(
             notifyCalendarItemChanged()
         }
 
-    var onDayClickLister: ((Day) -> Unit)? = null
+    var events: List<Date> = emptyList()
+        set(value) {
+            field = value
+            notifyCalendarItemChanged()
+        }
+
+    var onDayClickListener: ((Day) -> Unit)? = null
 
     var onDayLongClickListener: ((Day) -> Boolean)? = null
 
@@ -46,11 +52,11 @@ open class CalendarPagerAdapter(
             isNestedScrollingEnabled = false
             hasFixedSize()
 
-            adapter = object : CalendarCellAdapter(getCalendar(position), startingAt, selectedDay) {
+            adapter = object : CalendarCellAdapter(getCalendar(position), startingAt, selectedDay, events) {
                 override fun onBindViewHolder(holder: RecyclerView.ViewHolder, day: Day) {
                     holder.itemView.setOnClickListener {
                         this@CalendarPagerAdapter.selectedDay = day.calendar.time
-                        this@CalendarPagerAdapter.onDayClickLister?.invoke(day)
+                        this@CalendarPagerAdapter.onDayClickListener?.invoke(day)
                         notifyCalendarItemChanged()
                     }
                     holder.itemView.setOnLongClickListener {
@@ -110,7 +116,7 @@ open class CalendarPagerAdapter(
         val views = viewContainer ?: return
         (0 until views.childCount).forEach { i ->
             ((views.getChildAt(i) as? RecyclerView)?.adapter as? CalendarCellAdapter)?.updateItems(
-                selectedDay
+                selectedDay, events
             )
         }
     }

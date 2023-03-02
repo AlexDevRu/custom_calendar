@@ -6,13 +6,15 @@ import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import java.util.*
 
-open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
-    ViewPager(context, attrs) {
+open class CalendarViewPager @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : ViewPager(context, attrs) {
 
     var onDayClickListener: ((Day) -> Unit)? = null
         set(value) {
             field = value
-            (adapter as? CalendarPagerAdapter)?.onDayClickLister = field
+            (adapter as? CalendarPagerAdapter)?.onDayClickListener = field
         }
 
     var onDayLongClickListener: ((Day) -> Boolean)? = null
@@ -28,7 +30,7 @@ open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
         if (adapter is CalendarPagerAdapter) {
             this.clearOnPageChangeListeners()
 
-            adapter.onDayClickLister = this.onDayClickListener
+            adapter.onDayClickListener = this.onDayClickListener
             adapter.onDayLongClickListener = this.onDayLongClickListener
 
             setCurrentItem(CalendarPagerAdapter.MAX_VALUE / 2, false)
@@ -36,7 +38,7 @@ open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
         }
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    /*override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // initialized child views
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
@@ -51,7 +53,7 @@ open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
                 MeasureSpec.makeMeasureSpec(newHeight, MeasureSpec.EXACTLY)
             super.onMeasure(widthMeasureSpec, exactlyHeightMeasureSpec)
         }
-    }
+    }*/
 
     fun getCurrentCalendar(): Calendar? =
         (adapter as? CalendarPagerAdapter)?.getCalendar(currentItem)

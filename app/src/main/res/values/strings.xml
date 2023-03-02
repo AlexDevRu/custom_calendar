@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Learning Android Custom Calendar Kulakov</string>
+    <string name="add_event">Add event</string>
 </resources>

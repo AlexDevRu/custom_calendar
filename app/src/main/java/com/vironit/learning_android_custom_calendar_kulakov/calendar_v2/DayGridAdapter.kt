@@ -8,8 +8,10 @@ import kotlin.properties.Delegates
 abstract class CalendarCellAdapter(
     private val calendar: Calendar,
     startingAt: CalendarPagerAdapter.DayOfWeek,
-    preselectedDay: Date? = null
+    preselectedDay: Date? = null,
+    preselectedEvents: List<Date> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     private val weekOfMonth: Int
     private val startDate: Calendar
 
@@ -35,10 +37,10 @@ abstract class CalendarCellAdapter(
                     calendar
                 )
             ) 1 else 0) - (if (startingAt.isMoreLastWeek(calendar)) 1 else 0)
-        updateItems(preselectedDay)
+        updateItems(preselectedDay, preselectedEvents)
     }
 
-    fun updateItems(selectedDate: Date? = null) {
+    fun updateItems(selectedDate: Date? = null, events: List<Date> = emptyList()) {
         val now = Calendar.getInstance()
 
         this.items = (0..itemCount).map {
@@ -60,7 +62,11 @@ abstract class CalendarCellAdapter(
             }
             val isToday = DateUtils.isSameDay(cal, now)
 
-            Day(cal, state, isToday, isSelected)
+            val isEvent = events.any {
+                DateUtils.isSameDay(cal.time, it)
+            }
+
+            Day(cal, state, isToday, isSelected, isEvent)
         }
     }
 
@@ -77,7 +83,8 @@ data class Day(
     var calendar: Calendar,
     var state: DayState,
     var isToday: Boolean,
-    var isSelected: Boolean
+    var isSelected: Boolean,
+    var isEvent: Boolean
 )
 
 enum class DayState {

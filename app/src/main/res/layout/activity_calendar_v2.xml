@@ -1,92 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btnMonthBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_arrow_back_ios_24"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btnMonthNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/calendarTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@id/btnMonthBack"
-        app:layout_constraintEnd_toStartOf="@id/btnMonthNext"
-        app:layout_constraintTop_toTopOf="@id/btnMonthBack"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/btnMonthBack"
+        app:layout_constraintEnd_toStartOf="@id/btnMonthNext"
+        app:layout_constraintStart_toEndOf="@id/btnMonthBack"
+        app:layout_constraintTop_toTopOf="@id/btnMonthBack"
         tools:text="February 2023" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/llWeek"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/btnMonthBack">
+    <include
+        android:id="@+id/tvDayOfWeek1"
+        layout="@layout/item_week_letter"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@id/tvDayOfWeek2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnMonthBack" />
 
-        <include
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            layout="@layout/item_week_letter"
-            android:layout_weight="1" />
+    <include
+        android:id="@+id/tvDayOfWeek2"
+        layout="@layout/item_week_letter"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toStartOf="@id/tvDayOfWeek3"
+        app:layout_constraintStart_toEndOf="@id/tvDayOfWeek1"
+        app:layout_constraintTop_toTopOf="@id/tvDayOfWeek1" />
 
-        <include
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            layout="@layout/item_week_letter"
-            android:layout_weight="1" />
+    <include
+        android:id="@+id/tvDayOfWeek3"
+        layout="@layout/item_week_letter"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toStartOf="@id/tvDayOfWeek4"
+        app:layout_constraintStart_toEndOf="@id/tvDayOfWeek2"
+        app:layout_constraintTop_toTopOf="@id/tvDayOfWeek1" />
 
-        <include
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            layout="@layout/item_week_letter"
-            android:layout_weight="1" />
+    <include
+        android:id="@+id/tvDayOfWeek4"
+        layout="@layout/item_week_letter"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toStartOf="@id/tvDayOfWeek5"
+        app:layout_constraintStart_toEndOf="@id/tvDayOfWeek3"
+        app:layout_constraintTop_toTopOf="@id/tvDayOfWeek1" />
 
-        <include
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            layout="@layout/item_week_letter"
-            android:layout_weight="1" />
+    <include
+        android:id="@+id/tvDayOfWeek5"
+        layout="@layout/item_week_letter"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toStartOf="@id/tvDayOfWeek6"
+        app:layout_constraintStart_toEndOf="@id/tvDayOfWeek4"
+        app:layout_constraintTop_toTopOf="@id/tvDayOfWeek1" />
 
-        <include
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            layout="@layout/item_week_letter"
-            android:layout_weight="1" />
+    <include
+        android:id="@+id/tvDayOfWeek6"
+        layout="@layout/item_week_letter"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toStartOf="@id/tvDayOfWeek7"
+        app:layout_constraintStart_toEndOf="@id/tvDayOfWeek5"
+        app:layout_constraintTop_toTopOf="@id/tvDayOfWeek1" />
 
-        <include
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            layout="@layout/item_week_letter"
-            android:layout_weight="1" />
-
-        <include
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            layout="@layout/item_week_letter"
-            android:layout_weight="1" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <include
+        android:id="@+id/tvDayOfWeek7"
+        layout="@layout/item_week_letter"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvDayOfWeek6"
+        app:layout_constraintTop_toTopOf="@id/tvDayOfWeek1" />
 
     <com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.CalendarViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llWeek"/>
+        app:layout_constraintTop_toBottomOf="@id/tvDayOfWeek1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEvents"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/btnAddEvent"
+        app:layout_constraintTop_toBottomOf="@id/viewPager" />
+
+    <Button
+        android:id="@+id/btnAddEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_event"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

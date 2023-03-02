@@ -21,6 +21,6 @@ class CustomCalendarAdapter(context: Context) : CalendarPagerAdapter(context) {
         val colorRes = if (day.state == DayState.ThisMonth) R.color.black else R.color.grey
         binding.textView.setTextColor(ContextCompat.getColor(binding.root.context, colorRes))
         binding.textView.text = day.calendar.get(Calendar.DAY_OF_MONTH).toString()
-        binding.eventStar.isVisible = day.isSelected
+        binding.eventStar.isVisible = day.isEvent
     }
 }
