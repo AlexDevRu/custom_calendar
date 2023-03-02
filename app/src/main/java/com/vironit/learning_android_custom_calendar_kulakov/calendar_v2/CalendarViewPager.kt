@@ -45,7 +45,7 @@ open class CalendarViewPager @JvmOverloads constructor(
         // support wrap_content
         val mode = MeasureSpec.getMode(heightMeasureSpec)
         if (mode == MeasureSpec.AT_MOST) {
-            val view = focusedChild ?: getChildAt(0)
+            val view = focusedChild ?: getChildAt(0) ?: return
             view.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
             val newHeight = view.measuredHeight
 

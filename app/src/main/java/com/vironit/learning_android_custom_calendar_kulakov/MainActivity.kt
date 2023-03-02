@@ -2,12 +2,16 @@ package com.vironit.learning_android_custom_calendar_kulakov
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING
+import com.vironit.learning_android_custom_calendar_kulakov.calendar_v1.CalendarAdapter
+import com.vironit.learning_android_custom_calendar_kulakov.calendar_v1.MonthFragment
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.ActivityMainBinding
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -36,15 +40,6 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.adapter = calendarAdapter
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            /*override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                Log.d("asd", "onPageSelected: $position")
-
-
-
-
-            }*/
-
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
                 if (state == SCROLL_STATE_IDLE) {
@@ -54,9 +49,11 @@ class MainActivity : AppCompatActivity() {
                     } else if (position < 1) {
                         calendarAdapter.onPrev()
                     }
-                    calendarAdapter.updateUI()
-                    binding.viewPager.setCurrentItem(1, false)
-                    binding.viewPager.isUserInputEnabled = true
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        calendarAdapter.updateUI()
+                        binding.viewPager.setCurrentItem(1, false)
+                        binding.viewPager.isUserInputEnabled = true
+                    }, 50)
                     updateMonthTitle()
                 } else if (state == SCROLL_STATE_SETTLING) {
                     binding.viewPager.isUserInputEnabled = false

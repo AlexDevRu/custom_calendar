@@ -1,4 +1,4 @@
-package com.vironit.learning_android_custom_calendar_kulakov
+package com.vironit.learning_android_custom_calendar_kulakov.calendar_v1
 
 import android.os.Bundle
 import android.util.Log

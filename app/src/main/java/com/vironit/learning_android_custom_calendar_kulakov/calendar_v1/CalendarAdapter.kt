@@ -1,10 +1,9 @@
-package com.vironit.learning_android_custom_calendar_kulakov
+package com.vironit.learning_android_custom_calendar_kulakov.calendar_v1
 
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 
 class CalendarAdapter(fragment: FragmentActivity, private val fragments: List<MonthFragment>) : FragmentStateAdapter(fragment) {
 

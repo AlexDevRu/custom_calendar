@@ -1,11 +1,11 @@
-package com.vironit.learning_android_custom_calendar_kulakov
+package com.vironit.learning_android_custom_calendar_kulakov.calendar_v1
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.vironit.learning_android_custom_calendar_kulakov.R
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.ItemDayBinding
 
 class MonthAdapter: RecyclerView.Adapter<MonthAdapter.DayViewHolder>()/*ListAdapter<Day, MonthAdapter.DayViewHolder>(DIFF_UTIL)*/ {
