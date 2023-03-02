@@ -38,8 +38,8 @@
         layout="@layout/item_week_letter"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintEnd_toStartOf="@id/tvDayOfWeek2"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnMonthBack" />
 
