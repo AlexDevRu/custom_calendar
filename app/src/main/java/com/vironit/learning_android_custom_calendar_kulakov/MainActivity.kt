@@ -1,5 +1,6 @@
 package com.vironit.learning_android_custom_calendar_kulakov
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -80,11 +81,15 @@ class MainActivity : AppCompatActivity() {
         shortWeekdays.zip(weekLettersTextViews).forEach { (date, textView) ->
             (textView as? TextView)?.text = date.first().toString()
         }
+
+        binding.btnCalendarV2.setOnClickListener {
+            val intent = Intent(this, CalendarV2Activity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun updateMonthTitle() {
         val calendar = Calendar.getInstance()
-        calendar.time = Date()
         calendar.add(Calendar.MONTH, calendarAdapter.center)
 
         val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())

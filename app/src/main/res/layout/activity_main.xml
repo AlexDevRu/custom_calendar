@@ -11,26 +11,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_arrow_back_ios_24"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btnMonthNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/calendarTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@id/btnMonthBack"
-        app:layout_constraintEnd_toStartOf="@id/btnMonthNext"
-        app:layout_constraintTop_toTopOf="@id/btnMonthBack"
         app:layout_constraintBottom_toBottomOf="@id/btnMonthBack"
+        app:layout_constraintEnd_toStartOf="@id/btnMonthNext"
+        app:layout_constraintStart_toEndOf="@id/btnMonthBack"
+        app:layout_constraintTop_toTopOf="@id/btnMonthBack"
         tools:text="February 2023" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -43,62 +43,62 @@
         <TextView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/purple_500"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            tools:text="S" />
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:textColor="@color/purple_500"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            tools:text="S" />
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:textColor="@color/purple_500"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            tools:text="S" />
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:textColor="@color/purple_500"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            tools:text="S" />
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:textColor="@color/purple_500"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            tools:text="S" />
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:textColor="@color/purple_500"
-            android:layout_weight="1"
             android:textStyle="bold"
             tools:text="S" />
 
         <TextView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            tools:text="S" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            tools:text="S" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            tools:text="S" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            tools:text="S" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            tools:text="S" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="@color/purple_500"
             android:textStyle="bold"
             tools:text="S" />
@@ -109,6 +109,13 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llWeek"/>
+        app:layout_constraintTop_toBottomOf="@id/llWeek" />
+
+    <Button
+        android:id="@+id/btnCalendarV2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calendar v2"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

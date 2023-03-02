@@ -18,6 +18,7 @@
         tools:text="12" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/eventStar"
         android:layout_width="12dp"
         android:layout_height="12dp"
         app:tint="@color/purple_500"
