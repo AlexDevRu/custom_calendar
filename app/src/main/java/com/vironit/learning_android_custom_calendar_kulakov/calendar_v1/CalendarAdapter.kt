@@ -25,17 +25,18 @@ class CalendarAdapter(fragment: FragmentActivity, private val fragments: List<Mo
     }
 
     override fun getItemCount(): Int {
-        return fragments.size
+        return 500//fragments.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        val shift = when (position) {
+        /*val shift = when (position) {
             0 -> center - 1
             1 -> center
             else -> center + 1
         }
         Log.d("asd", "createFragment: $position $shift")
-        return fragments[position]
+        return fragments[position]*/
+        return MonthFragment.createInstance(position - 255)
     }
 
     companion object {

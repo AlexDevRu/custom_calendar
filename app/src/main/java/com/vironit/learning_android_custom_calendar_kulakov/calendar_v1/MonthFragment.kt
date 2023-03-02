@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.FragmentMonthBinding
 import java.util.*
@@ -27,6 +28,7 @@ class MonthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding!!.root.adapter = adapter
+        updateUI(arguments?.getInt(SHIFT, 0) ?: 0)
     }
 
     fun updateUI(shift: Int) {
@@ -63,9 +65,10 @@ class MonthFragment : Fragment() {
 
     companion object {
         private const val TAG = "MonthFragment"
+        private const val SHIFT = "SHIFT"
 
-        fun createInstance(): MonthFragment {
-            return MonthFragment()
+        fun createInstance(shift: Int): MonthFragment {
+            return MonthFragment().apply { arguments = bundleOf(SHIFT to shift) }
         }
     }
 

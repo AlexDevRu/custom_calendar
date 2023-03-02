@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var calendarAdapter: CalendarAdapter
 
     private val fragments = listOf(
-        MonthFragment.createInstance(),
-        MonthFragment.createInstance(),
-        MonthFragment.createInstance(),
+        MonthFragment.createInstance(-1),
+        MonthFragment.createInstance(0),
+        MonthFragment.createInstance(1),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
                 if (state == SCROLL_STATE_IDLE) {
-                    val position = binding.viewPager.currentItem
+                    /*val position = binding.viewPager.currentItem
                     if (position > 1) {
                         calendarAdapter.onNext()
                     } else if (position < 1) {
@@ -53,23 +53,23 @@ class MainActivity : AppCompatActivity() {
                         calendarAdapter.updateUI()
                         binding.viewPager.setCurrentItem(1, false)
                         binding.viewPager.isUserInputEnabled = true
-                    }, 50)
+                    }, 50)*/
                     updateMonthTitle()
                 } else if (state == SCROLL_STATE_SETTLING) {
-                    binding.viewPager.isUserInputEnabled = false
+                    //binding.viewPager.isUserInputEnabled = false
                 }
             }
         })
 
-        binding.viewPager.setCurrentItem(1, false)
+        binding.viewPager.setCurrentItem(255, false)
         updateMonthTitle()
         calendarAdapter.updateUI()
 
         binding.btnMonthBack.setOnClickListener {
-            binding.viewPager.setCurrentItem(0, true)
+            binding.viewPager.setCurrentItem(binding.viewPager.currentItem - 1, true)
         }
         binding.btnMonthNext.setOnClickListener {
-            binding.viewPager.setCurrentItem(2, true)
+            binding.viewPager.setCurrentItem(binding.viewPager.currentItem + 1, true)
         }
 
         val shortWeekdays = DateFormatSymbols.getInstance(Locale.getDefault()).shortWeekdays.drop(1)
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateMonthTitle() {
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MONTH, calendarAdapter.center)
+        calendar.add(Calendar.MONTH, binding.viewPager.currentItem - 255)
 
         val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         binding.calendarTitle.text = sdf.format(calendar.time)
