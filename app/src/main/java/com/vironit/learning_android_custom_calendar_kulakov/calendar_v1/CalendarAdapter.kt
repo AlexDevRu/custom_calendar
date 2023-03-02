@@ -25,7 +25,7 @@ class CalendarAdapter(fragment: FragmentActivity, private val fragments: List<Mo
     }
 
     override fun getItemCount(): Int {
-        return 500//fragments.size
+        return 10000//fragments.size
     }
 
     override fun createFragment(position: Int): Fragment {
