@@ -39,6 +39,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation "com.github.skydoves:colorpickerpreference:2.0.6"
 
+    implementation 'io.github.ShawnLin013:number-picker:2.4.13'
+
     implementation "androidx.fragment:fragment-ktx:1.5.5"
     implementation "androidx.activity:activity-ktx:1.6.1"
 

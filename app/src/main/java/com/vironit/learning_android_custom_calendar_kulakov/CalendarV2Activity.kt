@@ -1,11 +1,10 @@
 package com.vironit.learning_android_custom_calendar_kulakov
 
-import android.app.DatePickerDialog
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.ChooseDateDialog
 import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.CustomCalendarAdapter
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.ActivityCalendarV2Binding
 import com.vironit.learning_android_custom_calendar_kulakov.events.Event
@@ -17,11 +16,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, SharedPreferences.OnSharedPreferenceChangeListener, EventAdapter.Listener {
+class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, EventAdapter.Listener {
 
     private lateinit var binding: ActivityCalendarV2Binding
-
-    private var flag = 0
 
     private val prefs by lazy {
         getSharedPreferences("CalendarPrefs", MODE_PRIVATE)
@@ -67,18 +64,11 @@ class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         }
 
         binding.calendarTitle.setOnClickListener {
-            flag = 0
             val calendar = binding.viewPager.getCurrentCalendar()!!
-            DatePickerDialog(
-                this,
-                this,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            ChooseDateDialog.createInstance(calendar.time.time).show(supportFragmentManager, null)
         }
 
-        supportFragmentManager.setFragmentResultListener("EventDialog", this) { _, bundle ->
+        supportFragmentManager.setFragmentResultListener(EventDialog.REQUEST_KEY, this) { _, bundle ->
             val wedding = bundle.getBoolean(EventDialog.WEDDING)
             val birthday = bundle.getBoolean(EventDialog.BIRTHDAY)
             val graduation = bundle.getBoolean(EventDialog.GRADUATION)
@@ -93,8 +83,15 @@ class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
             prefs.edit { putStringSet(DATES, filteredDates + "$date $wedding $birthday $graduation") }
         }
 
+        supportFragmentManager.setFragmentResultListener(ChooseDateDialog.REQUEST_KEY, this) { _, bundle ->
+            val month = bundle.getInt(ChooseDateDialog.MONTH)
+            val year = bundle.getInt(ChooseDateDialog.YEAR)
+            val calendar = binding.viewPager.getCurrentCalendar()!!
+            val diff = (12 * year + month) - (12 * calendar.get(Calendar.YEAR) + calendar.get(Calendar.MONTH))
+            binding.viewPager.moveItemBy(diff, true)
+        }
+
         binding.btnAddEvent.setOnClickListener {
-            flag = 1
             EventDialog().show(supportFragmentManager, null)
         }
 
@@ -104,16 +101,6 @@ class CalendarV2Activity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         updateDates()
 
         updateMonthTitle(Calendar.getInstance())
-    }
-
-    override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        if (flag == 0) {
-            val calendar = binding.viewPager.getCurrentCalendar()!!
-            val diff = month - calendar.get(Calendar.MONTH)
-            binding.viewPager.moveItemBy(diff, true)
-        } else if (flag == 1) {
-            prefs.edit { putStringSet(DATES, getDates() + "$year $month $dayOfMonth") }
-        }
     }
 
     private fun getDates() = prefs.getStringSet(DATES, null).orEmpty()

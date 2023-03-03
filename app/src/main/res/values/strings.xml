@@ -7,4 +7,6 @@
     <string name="graduation">Graduation</string>
     <string name="calendar_v2">Calendar v2</string>
     <string name="add_date">Add date</string>
+    <string name="choose_date">Choose date</string>
+    <string name="choose">Choose</string>
 </resources>

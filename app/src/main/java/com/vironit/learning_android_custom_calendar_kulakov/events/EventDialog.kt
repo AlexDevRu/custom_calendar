@@ -87,7 +87,7 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
     }
 
     override fun onClick(p0: DialogInterface?, p1: Int) {
-        setFragmentResult("EventDialog", bundleOf(
+        setFragmentResult(REQUEST_KEY, bundleOf(
             DATE to date,
             WEDDING to wedding,
             BIRTHDAY to birthday,
@@ -97,6 +97,7 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
     }
 
     companion object {
+        const val REQUEST_KEY = "EventDialog"
         const val DATE = "date"
         const val WEDDING = "WEDDING"
         const val BIRTHDAY = "BIRTHDAY"

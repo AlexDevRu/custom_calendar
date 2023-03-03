@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="-4dp"
+        android:alpha="0.1"
+        android:background="@drawable/bg_number_picker"
+        app:layout_constraintBottom_toBottomOf="@id/monthPicker"
+        app:layout_constraintEnd_toEndOf="@id/monthPicker"
+        app:layout_constraintStart_toStartOf="@id/monthPicker"
+        app:layout_constraintTop_toTopOf="@id/monthPicker" />
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/monthPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/yearPicker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:np_dividerColor="@android:color/transparent"
+        app:np_max="12"
+        app:np_min="1"
+        app:np_selectedTextColor="@color/blue"
+        app:np_selectedTextSize="14sp"
+        app:np_textSize="14sp"
+        app:np_value="1"
+        app:np_wheelItemCount="5" />
+
+    <View
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="-4dp"
+        android:alpha="0.1"
+        android:background="@drawable/bg_number_picker"
+        app:layout_constraintBottom_toBottomOf="@id/yearPicker"
+        app:layout_constraintEnd_toEndOf="@id/yearPicker"
+        app:layout_constraintStart_toStartOf="@id/yearPicker"
+        app:layout_constraintTop_toTopOf="@id/yearPicker" />
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/yearPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/monthPicker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:np_dividerColor="@android:color/transparent"
+        app:np_max="2200"
+        app:np_min="1900"
+        app:np_selectedTextColor="@color/blue"
+        app:np_selectedTextSize="14sp"
+        app:np_textSize="14sp"
+        app:np_value="2023"
+        app:np_wheelItemCount="5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
