@@ -77,17 +77,3 @@ abstract class CalendarCellAdapter(
 
     abstract fun onBindViewHolder(holder: RecyclerView.ViewHolder, day: Day)
 }
-
-data class Day(
-    val calendar: Calendar,
-    val state: DayState,
-    val isToday: Boolean,
-    val isSelected: Boolean,
-    val event: Event? = null
-)
-
-enum class DayState {
-    PreviousMonth,
-    ThisMonth,
-    NextMonth
-}
