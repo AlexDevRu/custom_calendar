@@ -10,7 +10,9 @@ abstract class CalendarCellAdapter(
     private val calendar: Calendar,
     startingAt: CalendarPagerAdapter.DayOfWeek,
     preselectedDay: Date? = null,
-    preselectedEvents: List<Event> = emptyList()
+    preselectedEvents: List<Event> = emptyList(),
+    selectStartDate: Day? = null,
+    selectEndDate: Day? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val weekOfMonth: Int
@@ -38,10 +40,15 @@ abstract class CalendarCellAdapter(
                     calendar
                 )
             ) 1 else 0) - (if (startingAt.isMoreLastWeek(calendar)) 1 else 0)
-        updateItems(preselectedDay, preselectedEvents)
+        updateItems(preselectedDay, preselectedEvents, selectStartDate, selectEndDate)
     }
 
-    fun updateItems(selectedDate: Date? = null, events: List<Event> = emptyList()) {
+    fun updateItems(
+        selectedDate: Date? = null,
+        events: List<Event> = emptyList(),
+        selectStartDate: Day? = null,
+        selectEndDate: Day? = null
+    ) {
         val now = Calendar.getInstance()
 
         this.items = (0..itemCount).map {
@@ -65,7 +72,16 @@ abstract class CalendarCellAdapter(
 
             val event = events.find { DateUtils.isSameDay(cal, it.calendar) }
 
-            Day(cal, state, isToday, isSelected, event)
+            val selectionType = when {
+                selectStartDate != null && DateUtils.isSameDay(cal, selectStartDate.calendar) -> Selection.START
+                selectEndDate != null && DateUtils.isSameDay(cal, selectEndDate.calendar) -> Selection.END
+                selectStartDate != null && selectEndDate != null &&
+                        cal.time > selectStartDate.calendar.time &&
+                        cal.time < selectEndDate.calendar.time -> Selection.MIDDLE
+                else -> null
+            }
+
+            Day(cal, state, isToday, isSelected, event, selectionType)
         }
     }
 

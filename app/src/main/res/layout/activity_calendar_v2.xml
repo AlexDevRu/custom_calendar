@@ -108,8 +108,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/btnAddEvent"
+        app:layout_constraintBottom_toTopOf="@id/btnSelectRange"
         app:layout_constraintTop_toBottomOf="@id/viewPager" />
+
+    <Button
+        android:id="@+id/btnSelectRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_range"
+        app:layout_constraintBottom_toTopOf="@id/btnAddEvent" />
 
     <Button
         android:id="@+id/btnAddEvent"

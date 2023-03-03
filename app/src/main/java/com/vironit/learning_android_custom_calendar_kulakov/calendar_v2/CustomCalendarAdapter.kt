@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.vironit.learning_android_custom_calendar_kulakov.R
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.ItemDayBinding
 import java.util.*
@@ -31,6 +32,13 @@ class CustomCalendarAdapter(context: Context) : CalendarPagerAdapter(context) {
             R.color.grey
         binding.textView.setTextColor(ContextCompat.getColor(view.context, textColorRes))
 
+        binding.bgSelectionStart.isVisible = day.selectionType == Selection.START
+        binding.bgSelectionEnd.isVisible = day.selectionType == Selection.END
+        if (day.selectionType == Selection.MIDDLE)
+            binding.root.setBackgroundColor(ContextCompat.getColor(view.context, R.color.teal_200))
+        else
+            binding.root.background = null
+
         if (day.state == DayState.ThisMonth && day.event != null) {
             val colors = mutableListOf<Int>()
 
@@ -52,6 +60,8 @@ class CustomCalendarAdapter(context: Context) : CalendarPagerAdapter(context) {
                 val bg = ShapeDrawable(OvalShape())
                 bg.paint.color = colors.first()
                 binding.textView.background = bg
+            } else {
+                binding.textView.background = null
             }
 
         } else {

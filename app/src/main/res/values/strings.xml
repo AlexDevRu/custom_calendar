@@ -9,4 +9,6 @@
     <string name="add_date">Add date</string>
     <string name="choose_date">Choose date</string>
     <string name="choose">Choose</string>
+    <string name="select_range">Select range</string>
+    <string name="cancel_range">Cancel range</string>
 </resources>

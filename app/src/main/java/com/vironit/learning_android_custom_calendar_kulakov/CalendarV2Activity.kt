@@ -30,6 +30,8 @@ class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPrefer
 
     private val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
 
+    private var isSelectRange = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCalendarV2Binding.inflate(layoutInflater)
@@ -61,6 +63,15 @@ class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPrefer
 
         binding.viewPager.onCalendarChangeListener = {
             updateMonthTitle(it)
+        }
+
+        binding.viewPager.onDayClickListener = {
+            if (isSelectRange) {
+                if (adapter.selectStartDate == null)
+                    adapter.selectStartDate = it
+                else
+                    adapter.selectEndDate = it
+            }
         }
 
         binding.calendarTitle.setOnClickListener {
@@ -101,6 +112,15 @@ class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPrefer
         updateDates()
 
         updateMonthTitle(Calendar.getInstance())
+
+        binding.btnSelectRange.setOnClickListener {
+            isSelectRange = !isSelectRange
+            binding.btnSelectRange.setText(if (isSelectRange) R.string.cancel_range else R.string.select_range)
+            if (!isSelectRange) {
+                adapter.selectStartDate = null
+                adapter.selectEndDate = null
+            }
+        }
     }
 
     private fun getDates() = prefs.getStringSet(DATES, null).orEmpty()
