@@ -42,7 +42,7 @@ open class CalendarPagerAdapter(
     var onDayLongClickListener: ((Day) -> Boolean)? = null
 
     companion object {
-        const val MAX_VALUE = 500
+        const val MAX_VALUE = 10000
     }
 
     override fun getCount(): Int = MAX_VALUE
