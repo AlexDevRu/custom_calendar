@@ -45,19 +45,19 @@ class EventAdapter(
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         private val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-        private var date: Event? = null
+        private var event: Event? = null
 
         init {
             binding.btnRemove.setOnClickListener(this)
         }
 
-        fun bind(date: Event) {
-            this.date = date
-            binding.tvEvent.text = sdf.format(date.calendar.time)
+        fun bind(event: Event) {
+            this.event = event
+            binding.tvEvent.text = "${event.title} - ${sdf.format(event.calendar.time)}"
         }
 
         override fun onClick(view: View?) {
-            date?.let {
+            event?.let {
                 listener.onRemove(it)
             }
         }

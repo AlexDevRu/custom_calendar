@@ -2,8 +2,10 @@ package com.vironit.learning_android_custom_calendar_kulakov
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.CalendarViewModel
 import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.ChooseDateDialog
 import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.CustomCalendarAdapter
 import com.vironit.learning_android_custom_calendar_kulakov.databinding.ActivityCalendarV2Binding
@@ -16,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, EventAdapter.Listener {
+class CalendarV2Activity : AppCompatActivity(), EventAdapter.Listener {
 
     private lateinit var binding: ActivityCalendarV2Binding
 
@@ -31,6 +33,8 @@ class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPrefer
     private val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
 
     private var isSelectRange = false
+
+    private val viewModel by viewModels<CalendarViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,18 +84,10 @@ class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPrefer
         }
 
         supportFragmentManager.setFragmentResultListener(EventDialog.REQUEST_KEY, this) { _, bundle ->
-            val wedding = bundle.getBoolean(EventDialog.WEDDING)
-            val birthday = bundle.getBoolean(EventDialog.BIRTHDAY)
-            val graduation = bundle.getBoolean(EventDialog.GRADUATION)
+            val color = bundle.getInt(EventDialog.COLOR)
+            val title = bundle.getString(EventDialog.TITLE)
             val date = bundle.getString(EventDialog.DATE)
-            val filteredDates = getDates().filter {
-                val parts = it.split(" ")
-                val year = parts[0].toInt()
-                val month = parts[1].toInt()
-                val dayOfMonth = parts[2].toInt()
-                "$year $month $dayOfMonth" != date
-            }.toSet()
-            prefs.edit { putStringSet(DATES, filteredDates + "$date $wedding $birthday $graduation") }
+
         }
 
         supportFragmentManager.setFragmentResultListener(ChooseDateDialog.REQUEST_KEY, this) { _, bundle ->
@@ -106,10 +102,7 @@ class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPrefer
             EventDialog().show(supportFragmentManager, null)
         }
 
-        prefs.registerOnSharedPreferenceChangeListener(this)
-
         binding.rvEvents.adapter = eventAdapter
-        updateDates()
 
         updateMonthTitle(Calendar.getInstance())
 
@@ -121,58 +114,45 @@ class CalendarV2Activity : AppCompatActivity(), SharedPreferences.OnSharedPrefer
                 adapter.selectEndDate = null
             }
         }
+
+        viewModel.getAllEvents()
+
+        observe()
     }
 
-    private fun getDates() = prefs.getStringSet(DATES, null).orEmpty()
-
-    override fun onSharedPreferenceChanged(p0: SharedPreferences?, key: String?) {
-        when (key) {
-            DATES -> updateDates()
+    private fun observe() {
+        viewModel.events.observe(this) {
+            adapter.events = it
+            eventAdapter.submitList(it)
         }
     }
 
     private fun updateDates() {
-        val dates = getDates().map {
+        /*val dates = getDates().map {
             val parts = it.split(" ")
             val year = parts[0].toInt()
             val month = parts[1].toInt()
             val dayOfMonth = parts[2].toInt()
-            val wedding = parts[3].toBoolean()
-            val birthday = parts[4].toBoolean()
-            val graduation = parts[5].toBoolean()
+            val title = parts[3]
+            val color = parts[4].toInt()
             val cal = Calendar.getInstance().apply {
                 set(Calendar.YEAR, year)
                 set(Calendar.MONTH, month)
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }
             Event(
+                id = System.currentTimeMillis(),
                 calendar = cal,
-                wedding = wedding,
-                birthday = birthday,
-                graduation = graduation
+                title = title,
+                color = color,
             )
         }.sortedBy { it.calendar.time }
         adapter.events = dates
-        eventAdapter.submitList(dates)
+        eventAdapter.submitList(dates)*/
     }
 
     override fun onRemove(event: Event) {
-        val calendar = event.calendar
 
-        val newDates = getDates().filter {
-            val parts = it.split(" ")
-            val year = parts[0].toInt()
-            val month = parts[1].toInt()
-            val dayOfMonth = parts[2].toInt()
-            val calendar1 = Calendar.getInstance().apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, month)
-                set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            }
-            !DateUtils.isSameDay(calendar, calendar1)
-        }.toSet()
-
-        prefs.edit { putStringSet(DATES, newDates) }
     }
 
     private fun updateMonthTitle(calendar: Calendar) {

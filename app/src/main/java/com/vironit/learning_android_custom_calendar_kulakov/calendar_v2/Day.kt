@@ -12,6 +12,6 @@ data class Day(
     val state: DayState,
     val isToday: Boolean,
     val isSelected: Boolean,
-    val event: Event? = null,
+    val events: List<Event> = emptyList(),
     val selectionType: Selection? = null
 )

@@ -19,9 +19,9 @@
         android:id="@+id/btnAddDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/add_date"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/add_date" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -30,41 +30,40 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="btnAddDate,date" />
 
-    <com.google.android.material.chip.ChipGroup
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlTitle"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/barrier">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip1"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/wedding"
-            android:textColor="@color/white"
-            app:chipBackgroundColor="@color/wedding" />
+            android:hint="@string/title" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip2"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/birthday"
-            android:textColor="@color/white"
-            app:chipBackgroundColor="@color/birthday"
-            app:chipIconTint="@color/white"
-            tools:checked="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip3"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/graduation"
-            android:textColor="@color/white"
-            app:chipBackgroundColor="@color/graduation" />
+    <View
+        android:id="@+id/colorView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tlTitle"
+        tools:background="@color/black" />
 
-    </com.google.android.material.chip.ChipGroup>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/event_color"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/colorView"
+        app:layout_constraintStart_toEndOf="@id/colorView"
+        app:layout_constraintTop_toTopOf="@id/colorView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

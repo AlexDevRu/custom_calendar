@@ -1,10 +1,12 @@
 package com.vironit.learning_android_custom_calendar_kulakov
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.viewpager2.widget.ViewPager2
@@ -28,6 +30,14 @@ class MainActivity : AppCompatActivity() {
         MonthFragment.createInstance(),
         MonthFragment.createInstance(),
     )
+
+    private val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {
+        if (it.all { it.value }) {
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +93,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CalendarV2Activity::class.java)
             startActivity(intent)
         }
+
+        permissionLauncher.launch(arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR))
     }
 
     private fun updateMonthTitle() {

@@ -11,4 +11,6 @@
     <string name="choose">Choose</string>
     <string name="select_range">Select range</string>
     <string name="cancel_range">Cancel range</string>
+    <string name="title">Title</string>
+    <string name="event_color">Event color</string>
 </resources>

@@ -24,7 +24,7 @@ class CustomCalendarAdapter(context: Context) : CalendarPagerAdapter(context) {
         binding.textView.text = day.calendar.get(Calendar.DAY_OF_MONTH).toString()
 
         val textColorRes = if (day.state == DayState.ThisMonth)
-            if (day.event != null)
+            if (day.events.isNotEmpty())
                 R.color.white
             else
                 R.color.black
@@ -39,15 +39,19 @@ class CustomCalendarAdapter(context: Context) : CalendarPagerAdapter(context) {
         else
             binding.root.background = null
 
-        if (day.state == DayState.ThisMonth && day.event != null) {
+        if (day.state == DayState.ThisMonth && day.events.isNotEmpty()) {
             val colors = mutableListOf<Int>()
 
-            if (day.event.wedding)
+            /*if (day.event.wedding)
                 colors.add(ContextCompat.getColor(view.context, R.color.wedding))
             if (day.event.birthday)
                 colors.add(ContextCompat.getColor(view.context, R.color.birthday))
             if (day.event.graduation)
-                colors.add(ContextCompat.getColor(view.context, R.color.graduation))
+                colors.add(ContextCompat.getColor(view.context, R.color.graduation))*/
+
+            day.events.forEach {
+                colors.add(it.color)
+            }
 
             if (colors.size > 1) {
                 val gd = GradientDrawable(

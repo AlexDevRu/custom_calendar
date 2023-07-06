@@ -70,7 +70,7 @@ abstract class CalendarCellAdapter(
             }
             val isToday = DateUtils.isSameDay(cal, now)
 
-            val event = events.find { DateUtils.isSameDay(cal, it.calendar) }
+            val event = events.filter { DateUtils.isSameDay(cal, it.calendar) }
 
             val selectionType = when {
                 selectStartDate != null && DateUtils.isSameDay(cal, selectStartDate.calendar) -> Selection.START
