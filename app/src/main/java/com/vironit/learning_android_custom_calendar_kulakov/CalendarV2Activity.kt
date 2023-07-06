@@ -85,9 +85,9 @@ class CalendarV2Activity : AppCompatActivity(), EventAdapter.Listener {
 
         supportFragmentManager.setFragmentResultListener(EventDialog.REQUEST_KEY, this) { _, bundle ->
             val color = bundle.getInt(EventDialog.COLOR)
-            val title = bundle.getString(EventDialog.TITLE)
-            val date = bundle.getString(EventDialog.DATE)
-
+            val title = bundle.getString(EventDialog.TITLE).orEmpty()
+            val date = bundle.getLong(EventDialog.DATE)
+            viewModel.insertEvent(date, title, color)
         }
 
         supportFragmentManager.setFragmentResultListener(ChooseDateDialog.REQUEST_KEY, this) { _, bundle ->
@@ -127,40 +127,12 @@ class CalendarV2Activity : AppCompatActivity(), EventAdapter.Listener {
         }
     }
 
-    private fun updateDates() {
-        /*val dates = getDates().map {
-            val parts = it.split(" ")
-            val year = parts[0].toInt()
-            val month = parts[1].toInt()
-            val dayOfMonth = parts[2].toInt()
-            val title = parts[3]
-            val color = parts[4].toInt()
-            val cal = Calendar.getInstance().apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, month)
-                set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            }
-            Event(
-                id = System.currentTimeMillis(),
-                calendar = cal,
-                title = title,
-                color = color,
-            )
-        }.sortedBy { it.calendar.time }
-        adapter.events = dates
-        eventAdapter.submitList(dates)*/
-    }
-
     override fun onRemove(event: Event) {
-
+        viewModel.removeEvent(event.id)
     }
 
     private fun updateMonthTitle(calendar: Calendar) {
         binding.calendarTitle.text = sdf.format(calendar.time)
-    }
-
-    companion object {
-        private const val DATES = "dates"
     }
 
 }

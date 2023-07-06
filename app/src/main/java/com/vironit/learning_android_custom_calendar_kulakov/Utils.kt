@@ -1,6 +1,7 @@
 package com.vironit.learning_android_custom_calendar_kulakov
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.ContentValues
 import android.graphics.Color
 import android.provider.CalendarContract
@@ -37,7 +38,8 @@ object Utils {
                     Events.DTSTART,
                     Events.DESCRIPTION,
                     Events.TITLE,
-                    Events.DISPLAY_COLOR
+                    Events.DISPLAY_COLOR,
+                    Events.DELETED,
                 )
 
                 val uri1 = Events.CONTENT_URI
@@ -55,15 +57,17 @@ object Utils {
                         val title = cur1.getStringOrNull(cur1.getColumnIndexOrThrow(Events.TITLE))
                         val dtstart = cur1.getLongOrNull(cur1.getColumnIndexOrThrow(Events.DTSTART))
                         val displayColor = cur1.getIntOrNull(cur1.getColumnIndexOrThrow(Events.DISPLAY_COLOR))
+                        val deleted = cur1.getIntOrNull(cur1.getColumnIndexOrThrow(Events.DELETED))
                         Log.d(javaClass.simpleName, "eventId = $eventId, title=$title, dtstart=$dtstart, displayColor=$displayColor")
-                        events.add(
-                            Event(
-                                id = eventId,
-                                title = title.orEmpty(),
-                                calendar = Calendar.getInstance().also { it.timeInMillis = dtstart ?: 0L },
-                                color = displayColor ?: Color.BLACK
+                        if (deleted != 1)
+                            events.add(
+                                Event(
+                                    id = eventId,
+                                    title = title.orEmpty(),
+                                    calendar = Calendar.getInstance().also { it.timeInMillis = dtstart ?: 0L },
+                                    color = displayColor ?: Color.BLACK
+                                )
                             )
-                        )
                     }
                     cur1.close()
                 }
@@ -108,5 +112,10 @@ object Utils {
         val uri = contentResolver.insert(Events.CONTENT_URI, values)
         val eventId = uri?.lastPathSegment
         Log.e(javaClass.simpleName ,"EVENT ID $eventId")
+    }
+
+    fun removeEvent(contentResolver: ContentResolver, eventId: Long) {
+        val uri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId)
+        contentResolver.delete(uri, null, null)
     }
 }

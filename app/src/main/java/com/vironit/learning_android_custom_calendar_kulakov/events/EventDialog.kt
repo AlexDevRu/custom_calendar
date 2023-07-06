@@ -28,7 +28,7 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
 
     private var selectedColor = 0
 
-    private var date = ""
+    private var date = 0L
 
     private val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
 
@@ -40,12 +40,7 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
 
         binding.colorView.setOnClickListener(this)
 
-        Calendar.getInstance().also { calendar ->
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-            date = "$year $month $dayOfMonth"
-        }
+        date = Calendar.getInstance().timeInMillis
 
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.add_event)
@@ -77,11 +72,11 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
     }
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        date = "$year $month $dayOfMonth"
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        date = calendar.timeInMillis
         binding.date.text = sdf.format(calendar.time)
         binding.btnAddDate.isVisible = false
     }

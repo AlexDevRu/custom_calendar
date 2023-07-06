@@ -37,11 +37,4 @@ class CalendarAdapter(fragment: FragmentActivity, private val fragments: List<Mo
         Log.d("asd", "createFragment: $position $shift")
         return fragments[position]
     }
-
-    companion object {
-        private const val TAG = "CalendarAdapter"
-    }
-
-
-
 }

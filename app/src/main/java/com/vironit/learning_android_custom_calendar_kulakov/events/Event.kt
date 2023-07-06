@@ -6,5 +6,5 @@ data class Event(
     val id: Long,
     val calendar: Calendar,
     val title: String,
-    val color: Int
+    val color: Int,
 )
