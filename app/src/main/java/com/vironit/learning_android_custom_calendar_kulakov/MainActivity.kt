@@ -1,7 +1,10 @@
 package com.vironit.learning_android_custom_calendar_kulakov
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -94,6 +97,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val mChannel = NotificationChannel("Calendar", "Calendar", importance)
+            // Register the channel with the system. You can't change the importance
+            // or other notification behaviors after this.
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
+
         permissionLauncher.launch(arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR))
     }
 
@@ -103,9 +115,5 @@ class MainActivity : AppCompatActivity() {
 
         val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         binding.calendarTitle.text = sdf.format(calendar.time)
-    }
-
-    companion object {
-        private const val TAG = "MainActivity"
     }
 }

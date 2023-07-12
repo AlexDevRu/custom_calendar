@@ -78,13 +78,12 @@ object Utils {
         return events.sortedBy { it.calendar.timeInMillis }
     }
 
-    fun insertNewEvent(contentResolver: ContentResolver, event: Event) {
+    fun insertNewEvent(contentResolver: ContentResolver, event: Event) : Long {
         val calId: Long = 1L
         if (calId == -1L) {
             // no calendar account; react meaningfully
-            return
+            return 0L
         }
-        GregorianCalendar()
         val cal = GregorianCalendar(
             event.calendar.get(Calendar.YEAR),
             event.calendar.get(Calendar.MONTH),
@@ -110,12 +109,51 @@ object Utils {
         values.put(Events.ALL_DAY, 0)
         values.put(Events.AVAILABILITY, Events.AVAILABILITY_BUSY)
         val uri = contentResolver.insert(Events.CONTENT_URI, values)
-        val eventId = uri?.lastPathSegment
+        val eventId = uri?.lastPathSegment?.toLong() ?: 0L
         Log.e(javaClass.simpleName ,"EVENT ID $eventId")
+        return eventId
     }
 
     fun removeEvent(contentResolver: ContentResolver, eventId: Long) {
         val uri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId)
         contentResolver.delete(uri, null, null)
+    }
+
+    fun getEventById(contentResolver: ContentResolver, eventId: Long) : Event? {
+        val projection1: Array<String> = arrayOf(
+            Events._ID,
+            Events.DTSTART,
+            Events.DESCRIPTION,
+            Events.TITLE,
+            Events.DISPLAY_COLOR,
+            Events.DELETED,
+        )
+
+        val uri1 = Events.CONTENT_URI
+        val selection1 = "(${Events._ID} = ?)"
+        val selectionArgs1 = arrayOf(eventId.toString())
+        val cur1 = contentResolver.query(
+            uri1,
+            projection1,
+            selection1,
+            selectionArgs1,
+            null,
+        )
+        if (cur1 != null && cur1.moveToFirst()) {
+            val id = cur1.getLong(cur1.getColumnIndexOrThrow(Events._ID))
+            val title = cur1.getStringOrNull(cur1.getColumnIndexOrThrow(Events.TITLE))
+            val dtstart = cur1.getLongOrNull(cur1.getColumnIndexOrThrow(Events.DTSTART))
+            val displayColor = cur1.getIntOrNull(cur1.getColumnIndexOrThrow(Events.DISPLAY_COLOR))
+            val event = Event(
+                id = id,
+                title = title.orEmpty(),
+                calendar = Calendar.getInstance().also { it.timeInMillis = dtstart ?: 0L },
+                color = displayColor ?: Color.BLACK
+            )
+            return event
+        }
+        cur1?.close()
+
+        return null
     }
 }

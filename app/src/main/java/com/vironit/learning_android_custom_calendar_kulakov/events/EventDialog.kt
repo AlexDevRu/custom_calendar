@@ -2,12 +2,14 @@ package com.vironit.learning_android_custom_calendar_kulakov.events
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -22,15 +24,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnClickListener, DatePickerDialog.OnDateSetListener,
-    ColorEnvelopeListener {
+    ColorEnvelopeListener, TimePickerDialog.OnTimeSetListener {
 
     private lateinit var binding : DialogAddEventBinding
 
-    private var selectedColor = 0
+    private var selectedColor = Color.BLACK
 
-    private var date = 0L
+    private val calendar = Calendar.getInstance()
 
-    private val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+    private val sdf = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -39,8 +41,6 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
         binding.btnAddDate.setOnClickListener(this)
 
         binding.colorView.setOnClickListener(this)
-
-        date = Calendar.getInstance().timeInMillis
 
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.add_event)
@@ -72,11 +72,21 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
     }
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        date = calendar.timeInMillis
+        TimePickerDialog(
+            requireContext(),
+            this,
+            calendar.get(Calendar.HOUR),
+            calendar.get(Calendar.MINUTE),
+            true
+        ).show()
+    }
+
+    override fun onTimeSet(p0: TimePicker?, hours: Int, minutes: Int) {
+        calendar.set(Calendar.HOUR, hours)
+        calendar.set(Calendar.MINUTE, minutes)
         binding.date.text = sdf.format(calendar.time)
         binding.btnAddDate.isVisible = false
     }
@@ -85,7 +95,7 @@ class EventDialog : DialogFragment(), DialogInterface.OnClickListener, View.OnCl
         when (which) {
             DialogInterface.BUTTON_POSITIVE -> {
                 setFragmentResult(REQUEST_KEY, bundleOf(
-                    DATE to date,
+                    DATE to calendar.timeInMillis,
                     TITLE to binding.etTitle.text?.toString().orEmpty(),
                     COLOR to selectedColor
                 ))

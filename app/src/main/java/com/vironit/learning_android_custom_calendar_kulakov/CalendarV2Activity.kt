@@ -1,10 +1,8 @@
 package com.vironit.learning_android_custom_calendar_kulakov
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.edit
 import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.CalendarViewModel
 import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.ChooseDateDialog
 import com.vironit.learning_android_custom_calendar_kulakov.calendar_v2.CustomCalendarAdapter
@@ -12,10 +10,10 @@ import com.vironit.learning_android_custom_calendar_kulakov.databinding.Activity
 import com.vironit.learning_android_custom_calendar_kulakov.events.Event
 import com.vironit.learning_android_custom_calendar_kulakov.events.EventAdapter
 import com.vironit.learning_android_custom_calendar_kulakov.events.EventDialog
-import org.apache.commons.lang3.time.DateUtils
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 
 class CalendarV2Activity : AppCompatActivity(), EventAdapter.Listener {

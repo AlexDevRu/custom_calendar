@@ -22,7 +22,7 @@ class EventAdapter(
             }
 
             override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
-                return DateUtils.isSameDay(oldItem.calendar, newItem.calendar)
+                return oldItem.id == newItem.id
             }
         }
     }
@@ -44,7 +44,7 @@ class EventAdapter(
         private val binding : ItemEventBinding
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        private val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        private val sdf = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
         private var event: Event? = null
 
         init {
@@ -53,7 +53,7 @@ class EventAdapter(
 
         fun bind(event: Event) {
             this.event = event
-            binding.tvEvent.text = "${event.title} - ${sdf.format(event.calendar.time)}"
+            binding.tvEvent.text = "${event.title}\n${sdf.format(event.calendar.time)}"
         }
 
         override fun onClick(view: View?) {
