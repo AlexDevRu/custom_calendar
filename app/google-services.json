@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "484548702433",
+    "project_id": "fastlane-test-b13ea",
+    "storage_bucket": "fastlane-test-b13ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484548702433:android:d69157f00ede3715ac07a0",
+        "android_client_info": {
+          "package_name": "com.vironit.learning_android_custom_calendar_kulakov"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484548702433-odo8n4qadhv5ap7vf8s2uklc84qb0agf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsygPjtoU0UdlWRF8foD8EeYnKCNgvO-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484548702433-odo8n4qadhv5ap7vf8s2uklc84qb0agf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
