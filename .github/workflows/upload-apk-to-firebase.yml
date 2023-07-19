@@ -42,6 +42,10 @@ jobs:
           bundle exec fastlane add_plugin increment_version_code
           bundle exec fastlane add_plugin versioning_android
 
+      - name: Add execution right to gradlew
+        run: |
+          chmod +x ./gradlew
+
       # Step 10 Run the fastlane command to upload the build
       - name: Upload Apk to Firebase
         run: bundle exec fastlane distribute
