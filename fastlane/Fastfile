@@ -12,7 +12,6 @@
 
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
-PROJECT_DIR = "D:\\AndroidProjects\\Learning\\LearningAndroidCustomCalendarKulakov\\"
 APP_ID = "1:484548702433:android:d69157f00ede3715ac07a0"
 
 default_platform(:android)
@@ -32,7 +31,7 @@ platform :android do
   lane :increment_version do
     latest_release = firebase_app_distribution_get_latest_release(
       app: APP_ID,
-      service_credentials_file: "#{PROJECT_DIR}fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json"
+      service_credentials_file: "fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json"
     )
     new_version_code = latest_release[:buildVersion].to_i + 1
     increment_version_code({ version_code: new_version_code })
@@ -46,9 +45,9 @@ platform :android do
       # build_android_app is a built-in fastlane action.
       firebase_app_distribution(
           app: APP_ID,
-          service_credentials_file: "#{PROJECT_DIR}fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json",
-          testers_file: "#{PROJECT_DIR}testers.txt",
-          release_notes_file: "#{PROJECT_DIR}release_notes.txt"
+          service_credentials_file: "fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json",
+          testers_file: "testers.txt",
+          release_notes_file: "release_notes.txt"
       )
   end
 end
