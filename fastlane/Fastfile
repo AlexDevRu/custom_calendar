@@ -43,7 +43,9 @@ platform :android do
       app: APP_ID,
       service_credentials_file: "#{PROJECT_DIR}fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json"
     )
-    increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
+    new_version_code = latest_release[:buildVersion].to_i + 1
+    increment_version_code({ version_code: new_version_code })
+    android_set_version_name(version_name: "0.0.#{new_version_code}")
   end
 
   desc "Distribute app to Firebase"
