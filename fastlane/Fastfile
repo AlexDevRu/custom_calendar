@@ -23,15 +23,6 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
   desc "Deploy a new version to the Google Play"
   lane :deploy do
     gradle(task: "clean assembleRelease")
@@ -53,7 +44,7 @@ platform :android do
       increment_version
       gradle(task: "clean assembleRelease")
       # build_android_app is a built-in fastlane action.
-      release = firebase_app_distribution(
+      firebase_app_distribution(
           app: APP_ID,
           service_credentials_file: "#{PROJECT_DIR}fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json",
           testers_file: "#{PROJECT_DIR}testers.txt",
