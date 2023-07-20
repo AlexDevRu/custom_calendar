@@ -37,8 +37,6 @@ jobs:
 
       - name: Configure Keystore
         run: |
-          echo "$ANDROID_KEYSTORE_FILE" > MyApp-release-key.jks.b64
-          base64 -d -i MyApp-release-key.jks.b64 > app/MyApp-release-key.jks
           echo "storeFile=MyApp-release-key.jks" >> keystore.properties
           echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> keystore.properties
           echo "storePassword=$KEYSTORE_STORE_PASSWORD" >> keystore.properties
