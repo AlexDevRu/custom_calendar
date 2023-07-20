@@ -13,4 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json
+keystore.properties
+app/MyApp-release-key.jks

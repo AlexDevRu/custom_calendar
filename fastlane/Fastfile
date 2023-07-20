@@ -12,7 +12,6 @@
 
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
-# APP_ID = "1:484548702433:android:d69157f00ede3715ac07a0"
 
 default_platform(:android)
 
