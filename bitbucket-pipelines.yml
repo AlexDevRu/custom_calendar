@@ -2,6 +2,10 @@ image: androidsdk/android-30
 
 pipelines:
   default:
+    - step:
+        name: Initial work
+        script:
+          - chmod +x ./gradlew
     - parallel:
         - step:
             name: Android Debug Application
