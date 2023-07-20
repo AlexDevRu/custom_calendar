@@ -43,6 +43,7 @@ jobs:
           echo -n "keyAlias=$KEYSTORE_KEY_ALIAS" >> keystore.properties
           echo -n "storePassword=$KEYSTORE_STORE_PASSWORD" >> keystore.properties
           echo -n "keyPassword=$KEYSTORE_KEY_PASSWORD" >> keystore.properties
+          echo "Content file"
           cat keystore.properties
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
@@ -50,7 +51,7 @@ jobs:
           KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           KEYSTORE_STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
 
-      - name: Upload Apk to Firebase
-        run: bundle exec fastlane distribute
-        env:
-          APP_ID: ${{ secrets.APP_ID }}
+#      - name: Upload Apk to Firebase
+#        run: bundle exec fastlane distribute
+#        env:
+#          APP_ID: ${{ secrets.APP_ID }}
