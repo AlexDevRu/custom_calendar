@@ -20,10 +20,6 @@ class CalendarV2Activity : AppCompatActivity(), EventAdapter.Listener {
 
     private lateinit var binding: ActivityCalendarV2Binding
 
-    private val prefs by lazy {
-        getSharedPreferences("CalendarPrefs", MODE_PRIVATE)
-    }
-
     private val adapter = CustomCalendarAdapter(this)
 
     private val eventAdapter = EventAdapter(this)

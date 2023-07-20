@@ -37,3 +37,5 @@ jobs:
 
       - name: Upload Apk to Firebase
         run: bundle exec fastlane distribute
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
