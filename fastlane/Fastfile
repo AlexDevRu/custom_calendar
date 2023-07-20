@@ -12,6 +12,7 @@
 
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
+SERVICE_CREDENTIALS_FILE = "fastlane_service_credentials.json"
 
 default_platform(:android)
 
@@ -30,7 +31,7 @@ platform :android do
   lane :increment_version do
     latest_release = firebase_app_distribution_get_latest_release(
       app: ENV['APP_ID'],
-      service_credentials_file: "fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json"
+      service_credentials_file: SERVICE_CREDENTIALS_FILE
     )
     new_version_code = latest_release[:buildVersion].to_i + 1
     increment_version_code({ version_code: new_version_code })
@@ -44,7 +45,7 @@ platform :android do
       # build_android_app is a built-in fastlane action.
       firebase_app_distribution(
           app: ENV['APP_ID'],
-          service_credentials_file: "fastlane-test-b13ea-firebase-adminsdk-aiwqb-aae98ba9af.json",
+          service_credentials_file: SERVICE_CREDENTIALS_FILE,
           testers_file: "testers.txt",
           release_notes_file: "release_notes.txt"
       )
