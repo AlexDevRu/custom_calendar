@@ -6,11 +6,12 @@ pipelines:
         name: Initial work
         script:
           - chmod +x ./gradlew
+          - ./gradlew clean
     - step:
         name: Android Debug Application
         caches:
           - gradle
         script:
-          - ./gradlew assembleDebug
+          - ./gradlew assembleRelease
         artifacts:
           - app/build/outputs/**
