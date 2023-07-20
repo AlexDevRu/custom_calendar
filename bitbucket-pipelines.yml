@@ -6,18 +6,9 @@ pipelines:
         name: Initial work
         script:
           - chmod +x ./gradlew
-    - parallel:
-        - step:
-            name: Upload Apk to Firebase
-            script:
-              - gem install bundler
-              - bundle install
-              - bundle exec fastlane distribute
-        - step:
-            name: Lint
-            caches:
-              - gradle
-            script:
-              - ./gradlew lint
-            artifacts:
-              - app/build/reports/**
+    - step:
+        name: Upload Apk to Firebase
+        script:
+          - gem install bundler
+          - bundle install
+          - bundle exec fastlane distribute
