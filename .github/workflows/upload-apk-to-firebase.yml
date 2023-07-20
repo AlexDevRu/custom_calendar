@@ -39,10 +39,11 @@ jobs:
         run: |
           echo "$ANDROID_KEYSTORE_FILE" > MyApp-release-key.jks.b64
           base64 -d -i MyApp-release-key.jks.b64 > app/MyApp-release-key.jks
-          echo -n "storeFile=MyApp-release-key.jks" >> keystore.properties
-          echo -n "keyAlias=$KEYSTORE_KEY_ALIAS" >> keystore.properties
-          echo -n "storePassword=$KEYSTORE_STORE_PASSWORD" >> keystore.properties
-          echo -n "keyPassword=$KEYSTORE_KEY_PASSWORD" >> keystore.properties
+#          echo -n "storeFile=MyApp-release-key.jks" >> keystore.properties
+#          echo -n "keyAlias=$KEYSTORE_KEY_ALIAS" >> keystore.properties
+#          echo -n "storePassword=$KEYSTORE_STORE_PASSWORD" >> keystore.properties
+#          echo -n "keyPassword=$KEYSTORE_KEY_PASSWORD" >> keystore.properties
+          echo -e "storePassword=$KEYSTORE_STORE_PASSWORD\nkeyPassword=$KEYSTORE_KEY_PASSWORD\nkeyAlias=$KEYSTORE_KEY_ALIAS\nstoreFile=MyApp-release-key.jks" > keystore.properties
           echo "Content file"
           cat keystore.properties
         env:
