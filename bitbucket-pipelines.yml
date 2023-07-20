@@ -1,4 +1,4 @@
-image: inovex/gitlab-ci-android
+image: softartdev/android-fastlane
 
 pipelines:
   default:
