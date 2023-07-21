@@ -7,6 +7,15 @@ pipelines:
         script:
           - chmod +x ./gradlew
     - step:
+        name: Configure Keystore
+        script:
+          - echo "$ANDROID_KEYSTORE_FILE" > MyApp-release-key.jks.b64
+          - base64 -d -i MyApp-release-key.jks.b64 > app/MyApp-release-key.jks
+          - echo -e "storePassword=$KEYSTORE_STORE_PASSWORD\nkeyPassword=$KEYSTORE_KEY_PASSWORD\nkeyAlias=$KEYSTORE_KEY_ALIAS\nstoreFile=MyApp-release-key.jks" > keystore.properties
+          - echo "Content file"
+          - cat keystore.properties
+          - echo "$SERVICE_CREDENTIALS" > fastlane_service_credentials.json
+    - step:
         name: Upload Apk to Firebase
         script:
           - gem install bundler
